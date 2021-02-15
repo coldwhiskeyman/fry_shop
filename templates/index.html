@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}Shut up and take my money!{% endblock %}
+
+{% block content %}
+    <h1 class="main-heading">Shut up and take my money!</h1>
+    <img class="main-image" src="{{ MEDIA_URL }}fry.jpg" alt={% trans "Фрай" %}>
+{% endblock %}

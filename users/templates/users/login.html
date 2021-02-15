@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Авторизация" %}{% endblock %}
+
+{% block content %}
+    <form class="login-form" action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn login-form__btn" type="submit">{% trans "Войти" %}</button>
+    </form>
+{% endblock %}

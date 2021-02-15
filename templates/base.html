@@ -1,0 +1,59 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html class="html" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/users.css' %}">
+    <link rel="stylesheet" href="{% static 'css/shops.css' %}">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body class="body">
+<header class="header">
+    <div class="container header__container">
+        <div class="login">
+            {% if request.user.is_authenticated %}
+                <p class="login__greetings">{% trans "Здравствуйте" %},
+                    <a class="link" href="{% url 'user_detail' request.user.id %}">{{ request.user.username }}</a>!
+                </p>
+                <a class="link" href="{% url 'logout' %}">{% trans "Выйти" %}</a>
+            {% else %}
+                <a class="login__link link" href="{% url 'user_create' %}">{% trans "Зарегистрироваться" %}</a>
+                <a class="link" href="{% url 'login' %}">{% trans "Войти" %}</a>
+            {% endif %}
+        </div>
+        <nav>
+            <ul class="menu">
+                <li class="menu__item"><a class="link" href="{% url 'index' %}">{% trans "Главная" %}</a></li>
+                <li class="menu__item">
+                    <a class="link" href="{% url 'shop_list' %}">{% trans "Список магазинов" %}</a>
+                </li>
+            </ul>
+        </nav>
+        <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+            <input name="next" type="hidden" value="{{ redirect_to }}">
+            <select name="language">
+                {% get_current_language as LANGUAGE_CODE %}
+                {% get_available_languages as LANGUAGES %}
+                {% get_language_info_list for LANGUAGES as languages %}
+                {% for language in languages %}
+                    <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                        {{ language.name_local }} ({{ language.code }})
+                    </option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Go">
+        </form>
+    </div>
+</header>
+<main class="main">
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+</main>
+</body>
+</html>

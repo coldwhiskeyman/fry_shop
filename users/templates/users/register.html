@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Регистрация" %}{% endblock %}
+
+{% block content %}
+    <form class="register-form" action="{% url 'user_create' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn register-form__btn" type="submit">{% trans "Зарегистрироваться" %}</button>
+    </form>
+{% endblock %}

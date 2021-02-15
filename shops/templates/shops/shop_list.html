@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Список магазинов" %}{% endblock %}
+{% block content %}
+    <h1 class="shop-list-heading">{% trans "Список магазинов" %}</h1>
+    <ul class="shop-list">
+        {% for shop in shop_list %}
+            <li class="shop-list__item">
+                <a class="link" href="{% url 'shop_detail' shop.id %}">{{ shop.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

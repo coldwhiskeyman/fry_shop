@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{{ object.name }}{% endblock %}
+
+{% block content %}
+    <h1 class="shop-heading">{{ object.name }}</h1>
+    <section class="promotions">
+        <h3 class="promotions__heading">{% trans "Промоакции" %}</h3>
+        <ul class="promotions__list">
+            {% for promotion in object.promotions.all %}
+                <li class="promotions__item">{{ promotion.text }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+    <section class="products">
+        <h3 class="products__heading">{% trans "Продукты" %}</h3>
+        <ul class="products__list">
+            {% for product in object.products.all %}
+                <li class="products__item">
+                    <p>{{ product.name }} - {{ product.price }} &#8381;</p>
+                    <form action="{% url 'add_to_cart' product.id %}" method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button class="btn" type="submit">{% trans "Добавить в корзину" %}</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <a class="link" href="{% url 'cart_detail' object.id %}">{% trans "Корзина" %}</a>
+    </section>
+{% endblock %}

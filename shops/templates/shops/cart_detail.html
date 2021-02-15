@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Корзина" %}{% endblock %}
+
+{% block content %}
+    {% if not empty_cart %}
+        <h1 class="cart-heading">{% trans "Покупка в магазине" %} {{ object.shop }}</h1>
+        <ul class="cart-list">
+            {% for line in object.cart.all %}
+                <li class="cart-list__item">{{ line.product.name }} - {{ line.quantity }} {% trans "шт." %}</li>
+            {% endfor %}
+        </ul>
+
+        <p class="cart-cost">Итого: {{ object.cost }}</p>
+        <form class="cart-form" action="{% url 'confirm_purchase' object.shop.id %}" method="post">
+            {% csrf_token %}
+            <button class="btn cart-form__btn" type="submit">{% trans "Подтвердить" %}</button>
+        </form>
+    {% else %}
+        <p>{% trans "Ваша корзина пуста" %}</p>
+    {% endif %}
+{% endblock %}

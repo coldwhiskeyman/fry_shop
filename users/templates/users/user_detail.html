@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load cache %}
+
+{% block title %}{{ object.name }}{% endblock %}
+
+{% block content %}
+    <h1 class="user-heading">{{ object.username }}</h1>
+    <p class="user-name">{{ object.first_name }} {{ object.last_name }}</p>
+    <section class="balance">
+        <h3 class="balance__heading"></h3>
+        <p class="balance__amount">{{ object.balance }} &#8381;</p>
+        <form class="balance__form" action="{% url 'deposit' object.id %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn" type="submit">{% trans "Пополнить баланс" %}</button>
+        </form>
+    </section>
+    <section class="promotions">
+        <h3 class="promotions__heading">{% trans "Промоакции" %}</h3>
+        <ul>
+            {% for promotion in promotions %}
+                <li>{{ promotion.text }} <a class="link" href="{% url 'shop_detail' promotion.shop.id %}">
+                    {{ promotion.shop }}</a></li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% cache 600 purchases %}
+        <section class="purchases">
+            <h3 class="purchases__heading">{% trans "История покупок" %}</h3>
+            <ul>
+                {% for purchase in purchase_history %}
+                    <li>
+                        {% for line in purchase.cart.all %}
+                            <p>{{ line.product.name }} - {{ line.quantity }} шт.</p>
+                        {% endfor %}
+                        <p>{{ purchase.cost }} &#8381;</p>
+                        <a class="link" href="{% url 'shop_detail' purchase.shop.id %}">{{ purchase.shop }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% endcache %}
+{% endblock %}

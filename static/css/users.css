@@ -1,0 +1,47 @@
+.login-form,
+.register-form {
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.login-form p,
+.register-form p,
+.balance p {
+    margin-bottom: 20px;
+}
+
+.login-form__btn {
+    display: block;
+    margin: 0 auto;
+}
+
+.user-heading {
+    margin-bottom: 20px;
+    padding-left: 100px;
+    font-size: 36px;
+}
+
+.user-name {
+    padding-left: 100px;
+    font-size: 24px;
+    margin-bottom: 35px;
+}
+
+.balance,
+.promotions,
+.purchases {
+    padding-left: 100px;
+    margin-bottom: 35px;
+}
+
+.balance__heading,
+.balance__amount {
+    display: inline-block;
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+.promotions__heading,
+.purchases__heading {
+    margin-bottom: 20px;
+}
